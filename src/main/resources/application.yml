@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: "spring-lab-01"
+
+server:
+  port: 8080
+
+app:
+  owner: "Karzhaubai Nurasyl, 2411 IS"
+  group: "IT1-2411 IS"
+  date-pattern: "yyyy-MM-dd HH:mm:ss="
+  mail:
+    from: no-reply@iitu.kz
+    retry-count: 3
+    timeout: 5s
+    enabled: true
+  security:
+    token-ttl: 30m
+    min-password-length: 12
+
+logging:
+  level:
+    web: "INFO"
+    kz.iitu: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,env,configprops,conditions
+  endpoint:
+    env:
+      show-values: ALWAYS
+    configprops:
+      show-values: ALWAYS
