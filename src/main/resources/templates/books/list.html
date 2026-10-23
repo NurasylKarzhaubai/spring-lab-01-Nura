@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${title}">Book Catalogue</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="container nav"><a class="brand" href="/">IITU<span class="brand-dot">.</span> Library</a>
+      <div class="nav-links"><a class="active" href="/books">Catalogue</a><a href="/api/books">REST API ↗</a></div>
+    </div>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <div class="eyebrow">RWPSF 3305 <span class="bullet">●</span> SPRING MVC <span class="bullet">●</span> LAB 05</div>
+      <h1>Ideas worth <em>reading.</em></h1>
+      <p class="lede">A small but complete Spring MVC application — from Java records to HTML, with clean REST routes and a delightful reading list.</p>
+      <div class="chips"><span>Spring Boot 4</span><span>Thymeleaf</span><span>REST API</span><span>Variant #3 · PATCH</span></div>
+    </section>
+
+    <div class="notice" th:if="${message}" th:text="${message}" role="status">Book has been added</div>
+
+    <div class="section-top">
+      <div><span class="kicker">01 / THE COLLECTION</span><h2>Book catalogue <span class="count" th:text="${#lists.size(books)}">3</span></h2></div>
+      <form class="search" method="get" action="/books">
+        <label for="author">Filter by author</label>
+        <div class="search-controls"><input id="author" type="search" name="author" placeholder="Try Bloch…" th:value="${author}">
+          <button type="submit">Filter ↗</button><a class="reset" href="/books">Reset</a></div>
+      </form>
+    </div>
+    <div class="table-card">
+      <table><thead><tr><th>ID</th><th>BOOK TITLE</th><th>AUTHOR</th><th>YEAR</th></tr></thead>
+      <tbody><tr th:each="book : ${books}"><td class="book-id" th:text="${#numbers.formatInteger(book.id, 2)}">01</td>
+          <td class="book-title" th:text="${book.title}">Effective Java</td><td th:text="${book.author}">Joshua Bloch</td>
+          <td class="book-year" th:text="${book.year}">2018</td></tr></tbody>
+      </table>
+      <div class="empty" th:if="${#lists.isEmpty(books)}">No books matched. Try another author.</div>
+    </div>
+    <div class="grid-lower">
+      <section class="create-card"><span class="kicker">02 / NEW ENTRY</span><h2>Add to catalogue</h2>
+        <p>Use the browser form to test POST → Redirect → GET. Refreshing the page won't add a duplicate.</p>
+        <form method="post" action="/books"><label for="title">Book title</label><input id="title" name="title" required placeholder="A good title">
+          <label for="new-author">Author</label><input id="new-author" name="author" required placeholder="Author name">
+          <label for="year">Publication year</label><input id="year" name="year" required type="number" min="1450" max="2100" placeholder="2026">
+          <button class="primary" type="submit">Add book <span>↗</span></button></form>
+      </section>
+      <aside class="info-card"><span class="kicker">03 / DEVELOPER NOTES</span><h2>Two sides of MVC.</h2>
+        <p><strong>@RestController</strong> sends Java objects to JSON through an HTTP message converter.</p>
+        <p><strong>@Controller</strong> fills a Model, then Thymeleaf renders the view to HTML.</p>
+        <div class="rule"></div><p class="small">GET /api/books · POST /api/books · PATCH /api/books/{id}</p>
+      </aside>
+    </div>
+  </main>
+  <footer class="container">Karzhaubai Nurasyl <span>·</span> IT1-2411 IS <span>·</span> Laboratory Work No. 5</footer>
+</body>
+</html>
